@@ -1,0 +1,4 @@
+﻿enum VerificationTypeEnum {
+  phone,
+  email,
+}

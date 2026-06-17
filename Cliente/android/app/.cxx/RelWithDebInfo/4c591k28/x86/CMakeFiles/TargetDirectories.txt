@@ -1,0 +1,2 @@
+C:/Users/rafae/Downloads/app-turboentregas/android/app/.cxx/RelWithDebInfo/4c591k28/x86/CMakeFiles/edit_cache.dir
+C:/Users/rafae/Downloads/app-turboentregas/android/app/.cxx/RelWithDebInfo/4c591k28/x86/CMakeFiles/rebuild_cache.dir

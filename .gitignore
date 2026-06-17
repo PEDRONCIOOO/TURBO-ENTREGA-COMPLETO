@@ -1,0 +1,30 @@
+# Backup do repositorio Git que existia dentro de Painel_API.
+/.git-backups/
+
+# Arquivos locais do sistema e de editores.
+.DS_Store
+Thumbs.db
+*.log
+**/.rnd
+
+# Credenciais e configuracoes locais.
+**/.env
+**/.env.*
+!**/.env.example
+
+# Firebase e Google Services (contêm API keys).
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Dependencias e artefatos gerados.
+**/node_modules/
+**/vendor/
+**/build/
+**/.dart_tool/
+**/.idea/
+
+# Build do Flutter web no backend (auto-gerado no deploy).
+Painel_API/public/cliente/
+
+# Superpowers brainstorm sessions.
+.superpowers/

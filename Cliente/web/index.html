@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Solicite entregas rapidas de documentos, encomendas, compras e muito mais pelo Turbo Entregas.">
+  <meta name="keywords" content="Turbo Entregas, entregas, delivery, encomendas, motoboy, Dourados">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Turbo Entregas">
+  <meta property="og:description" content="Solicite entregas rapidas de documentos, encomendas, compras e muito mais pelo Turbo Entregas.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cliente.turboentregas.com.br/">
+  <meta property="og:image" content="https://cliente.turboentregas.com.br/favicon.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Turbo Entregas">
+  <meta name="twitter:description" content="Solicite entregas rapidas de documentos, encomendas, compras e muito mais pelo Turbo Entregas.">
+  <link rel="canonical" href="https://cliente.turboentregas.com.br/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Turbo Entregas">
+  <!-- Impede cache do próprio index.html no browser -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Content-Security-Policy" content="default-src * self blob: data: gap:; style-src * self 'unsafe-inline' blob: data: gap:; script-src * 'self' 'unsafe-eval' 'unsafe-inline' blob: data: gap:; object-src * 'self' blob: data: gap:; img-src * self 'unsafe-inline' blob: data: gap:; connect-src self * 'unsafe-inline' blob: data: gap:; frame-src * self blob: data: gap:;">
+
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" type="text/css" href="style.css">
+
+  <title>Turbo Entregas</title>
+
+  <script>
+    // Limpa SW + caches e recarrega (chamado pelo botao e pelo auto-update)
+    function _fltUpd() {
+      var btn = document.getElementById('_upd_btn');
+      if (btn) { btn.textContent = 'Limpando...'; btn.disabled = true; }
+      var ops = [];
+      if ('serviceWorker' in navigator) {
+        ops.push(navigator.serviceWorker.getRegistrations().then(function(r) {
+          return Promise.all(r.map(function(reg) { return reg.unregister(); }));
+        }));
+      }
+      if ('caches' in window) {
+        ops.push(caches.keys().then(function(k) {
+          return Promise.all(k.map(function(c) { return caches.delete(c); }));
+        }));
+      }
+      Promise.all(ops).then(function() { window.location.reload(true); });
+    }
+
+    // ── DETECCAO E CARREGAMENTO ───────────────────────────────────────────
+    // __BUILD_HASH__ e substituido por build_web.ps1 apos cada build.
+    (function () {
+      var h = '__BUILD_HASH__';
+
+      // Carrega flutter_bootstrap.js de forma PROGRAMATICA (sem defer estatico)
+      // Isso elimina a race condition: flutter so carrega quando sabemos que nao
+      // ha limpeza pendente, ou apos o reload ja ter limpado tudo.
+      function loadFlutter() {
+        var s = document.createElement('script');
+        // ?_b=HASH faz o SW nao interceptar (SW so conhece flutter_bootstrap.js sem param)
+        // O servidor responde com no-cache -> sempre versao atual
+        s.src = 'flutter_bootstrap.js?_b=' + h;
+        document.head.appendChild(s);
+      }
+
+      function showBanner() {
+        var el = document.getElementById('_upd');
+        if (el) el.style.display = 'flex';
+      }
+
+      var stored = localStorage.getItem('_flt_build');
+
+      if (stored === h) {
+        // Versao correta ja no localStorage: carrega Flutter direto
+        loadFlutter();
+        return;
+      }
+
+      // Versao nova detectada
+      localStorage.setItem('_flt_build', h);
+
+      // Mostra banner (fallback manual caso o auto-reload nao dispare)
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', showBanner);
+      } else {
+        showBanner();
+      }
+
+      if (!('serviceWorker' in navigator) && !('caches' in window)) {
+        loadFlutter();
+        return;
+      }
+
+      // Tenta auto-limpeza: desregistra SW + limpa caches + reload
+      Promise.all([
+        'serviceWorker' in navigator
+          ? navigator.serviceWorker.getRegistrations()
+          : Promise.resolve([]),
+        'caches' in window
+          ? caches.keys()
+          : Promise.resolve([])
+      ]).then(function (results) {
+        var regs = results[0], keys = results[1];
+        if (regs.length === 0 && keys.length === 0) {
+          // Nenhum SW ou cache antigo: primeira visita limpa, carrega direto
+          loadFlutter();
+          return;
+        }
+        // Limpa tudo e recarrega (no reload, stored===h, carrega Flutter direto)
+        return Promise.all([
+          Promise.all(regs.map(function (r) { return r.unregister(); })),
+          Promise.all(keys.map(function (k) { return caches.delete(k); }))
+        ]).then(function () {
+          window.location.reload(true);
+        });
+      }).catch(function () {
+        // Erro na limpeza: carrega assim mesmo (banner continua visivel)
+        loadFlutter();
+      });
+
+      // SW update listener: quando novo SW instala, ativa imediatamente
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          window.location.reload();
+        });
+        navigator.serviceWorker.ready.then(function (reg) {
+          reg.update();
+          reg.addEventListener('updatefound', function () {
+            var w = reg.installing;
+            if (!w) return;
+            w.addEventListener('statechange', function () {
+              if (w.state === 'installed' && navigator.serviceWorker.controller) {
+                w.postMessage('skipWaiting');
+              }
+            });
+          });
+        });
+      }
+    })();
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-messaging.js"></script>
+</head>
+<body>
+  <!-- Banner de atualização: aparece automaticamente quando novo build é detectado -->
+  <!-- Também pode ser ativado manualmente em situações extremas -->
+  <div id="_upd" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:99999;background:#1565C0;color:#fff;padding:14px 20px;font-family:Arial,sans-serif;font-size:16px;font-weight:bold;box-shadow:0 -3px 16px rgba(0,0,0,.4);align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span>&#128260; Nova versao disponivel! Clique para atualizar.</span>
+    <button id="_upd_btn" onclick="_fltUpd()" style="background:#fff;color:#1565C0;border:none;padding:12px 28px;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;white-space:nowrap;min-width:160px;">
+      Atualizar Agora
+    </button>
+  </div>
+</body>
+</html>

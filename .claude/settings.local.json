@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -d \"C:/Users/pedro/TURBOENTREGACOMPLETO/Cliente/lib/features/\"*)",
+      "Bash(where flutter:*)",
+      "Read(//c/Users/pedro/flutter/bin/**)",
+      "Read(//c/flutter/bin/**)",
+      "Read(//c/Users/pedro/TURBOENTREGACOMPLETO/$LOCALAPPDATA/flutter/bin/**)",
+      "Read(//c/Users/pedro/**)",
+      "Bash(git:*)",
+      "Bash(powershell.exe -Command \"if \\(Test-Path 'C:\\\\flutter'\\) { 'EXISTS' } else { 'NOT_FOUND' }\")",
+      "Bash(cmd.exe /c \"where php\")",
+      "Bash(cmd.exe /c \"where composer\")",
+      "Bash(cmd.exe /c \"where mysql\")",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root multi_food_db -e \"SELECT id, module_name, module_type, status FROM modules LIMIT 10;\" 2>&1)",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root multi_food_db)",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root multi_food_db -e \"SELECT id, name, ST_AsText\\(coordinates\\) as coords FROM zones WHERE id=1;\")",
+      "Bash(/c/xampp/mysql/bin/mysql.exe -u root multi_food_db --default-character-set=utf8mb4)",
+      "Bash(/c/xampp/php/php.exe -r \":*)",
+      "Bash(du:*)",
+      "Bash(find C:/Users/pedro/TURBOENTREGACOMPLETO/Painel_API/public/assets/admin -name *.min.*)",
+      "Bash(grep -v \"^/c/Users/pedro/TURBOENTREGACOMPLETO/Cliente/lib/features$\")"
+    ]
+  }
+}

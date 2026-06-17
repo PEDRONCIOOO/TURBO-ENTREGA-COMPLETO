@@ -1,0 +1,22 @@
+{
+  "name": "Gestor Let's Food",
+  "short_name": "Gestor Let's Food",
+  "description": "Gestor de Pedidos Let's Food - Acompanhe seus pedidos em tempo real",
+  "start_url": "/vendor/order/manager",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#21a361",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

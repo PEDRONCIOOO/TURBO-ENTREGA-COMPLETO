@@ -1,0 +1,2 @@
+C:/xampp/htdocs/app-letsfood/android/app/.cxx/Debug/91zq4c6a/x86/CMakeFiles/edit_cache.dir
+C:/xampp/htdocs/app-letsfood/android/app/.cxx/Debug/91zq4c6a/x86/CMakeFiles/rebuild_cache.dir

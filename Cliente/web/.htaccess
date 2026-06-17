@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+
+</IfModule>
+
+# -----------------------------------------------------------------------
+# Arquivos críticos: NUNCA fazer cache no browser/servidor
+# O usuário sempre baixa a versão mais recente ao abrir o app
+# -----------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # ── Assets COM hash gerado pelo Flutter: cache longo (seguro) ────────
+  # Fontes, imagens, canvaskit etc. — o hash no conteudo garante unicidade.
+  # Esta regra vem PRIMEIRO para poder ser sobrescrita pelas especificas.
+  <FilesMatch "\.(js|css|png|jpg|jpeg|gif|ico|woff|woff2|ttf|svg|wasm)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # ── Arquivos SEM hash no nome: NUNCA em cache ──────────────────────────
+  # Estas regras vem DEPOIS → sobrescrevem o max-age acima.
+  # IMPORTANTE: main.dart.js muda a cada build mas NAO tem hash no nome!
+  <FilesMatch "^(index\.html|flutter_bootstrap\.js|flutter_service_worker\.js|manifest\.json|main\.dart\.js|flutter\.js)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>

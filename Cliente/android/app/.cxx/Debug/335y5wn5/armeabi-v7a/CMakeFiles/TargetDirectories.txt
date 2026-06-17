@@ -1,0 +1,2 @@
+E:/Desenvolvimento/6am_market/User app and web/android/app/.cxx/Debug/335y5wn5/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/Desenvolvimento/6am_market/User app and web/android/app/.cxx/Debug/335y5wn5/armeabi-v7a/CMakeFiles/rebuild_cache.dir

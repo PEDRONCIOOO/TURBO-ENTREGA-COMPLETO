@@ -1,0 +1,2 @@
+C:/Users/rafae/Downloads/6ammart-v3.0-extrair/User app and web/android/app/.cxx/RelWithDebInfo/6x6i333x/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/rafae/Downloads/6ammart-v3.0-extrair/User app and web/android/app/.cxx/RelWithDebInfo/6x6i333x/armeabi-v7a/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,2 @@
+E:/Desenvolvimento/6am_market/User app and web/android/app/.cxx/RelWithDebInfo/6y4766t1/x86/CMakeFiles/edit_cache.dir
+E:/Desenvolvimento/6am_market/User app and web/android/app/.cxx/RelWithDebInfo/6y4766t1/x86/CMakeFiles/rebuild_cache.dir

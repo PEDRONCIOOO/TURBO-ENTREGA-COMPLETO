@@ -1,0 +1,23 @@
+{
+    "name": "Turbo Entregas ",
+    "short_name": "Turbo Entregas",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#bd3838",
+    "theme_color": "#bd3838",
+    "description": "Com o Turbo Entregas, você pode solicitar entregas de documentos, encomendas, compras e até transporte de passageiros, tudo diretamente pelo seu celular.",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "favicon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "favicon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

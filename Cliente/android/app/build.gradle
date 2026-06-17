@@ -1,0 +1,97 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+    id "dev.flutter.flutter-gradle-plugin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.crashlytics"
+}
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader) }
+}
+def flutterVersionCode = (localProperties.getProperty('flutter.versionCode') ?: '1')
+def flutterVersionName = (localProperties.getProperty('flutter.versionName') ?: '1.0')
+
+// === Carrega e valida key.properties ===
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file('key.properties')
+if (!keystorePropertiesFile.exists()) {
+    throw new GradleException("Arquivo key.properties NÃO encontrado em ${keystorePropertiesFile}.")
+}
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+def storeFilePath = keystoreProperties['storeFile']
+if (storeFilePath == null || storeFilePath.trim().isEmpty()) {
+    throw new GradleException("key.properties: 'storeFile' está vazio.")
+}
+def storeFileObj = file(storeFilePath)
+if (!storeFileObj.exists()) {
+    throw new GradleException("Keystore NÃO encontrado em: ${storeFileObj}. Verifique o caminho em key.properties.")
+}
+if (!keystoreProperties['keyAlias'])        throw new GradleException("key.properties: 'keyAlias' vazio.")
+if (!keystoreProperties['storePassword'])   throw new GradleException("key.properties: 'storePassword' vazio.")
+if (!keystoreProperties['keyPassword'])     throw new GradleException("key.properties: 'keyPassword' vazio.")
+// =======================================
+
+android {
+    namespace "com.turboentregas.cliente"
+    compileSdk 36
+    ndkVersion "27.0.12077973"
+
+    defaultConfig {
+        applicationId "com.turboentregas.cliente"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion 36
+        versionCode 15
+        versionName "15"
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions { jvmTarget = '1.8' }
+    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
+    signingConfigs {
+        release {
+            storeFile storeFileObj
+            storePassword keystoreProperties['storePassword']
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+        }
+        // (debug fica padrão)
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            debuggable false
+
+            // Gera símbolos nativos para upload no Play
+            ndk {
+                debugSymbolLevel 'SYMBOL_TABLE' // ou 'FULL'
+            }
+
+            // (se um dia ativar ofuscação)
+            // minifyEnabled true
+            // shrinkResources true
+            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug { }
+    }
+}
+
+flutter { source '../..' }
+
+dependencies {
+    implementation platform('com.google.firebase:firebase-bom:34.4.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation "com.google.firebase:firebase-messaging:23.4.1"
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+}

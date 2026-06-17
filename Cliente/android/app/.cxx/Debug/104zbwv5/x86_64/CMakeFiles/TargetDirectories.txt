@@ -1,0 +1,2 @@
+C:/Users/rafae/Downloads/letsfoodapp/User app and web/android/app/.cxx/Debug/104zbwv5/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/rafae/Downloads/letsfoodapp/User app and web/android/app/.cxx/Debug/104zbwv5/x86_64/CMakeFiles/rebuild_cache.dir

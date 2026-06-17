@@ -1,0 +1,2 @@
+C:/Users/rafae/Downloads/app-motoboy-turboentregas/android/app/.cxx/RelWithDebInfo/5e2o1s5e/x86/CMakeFiles/edit_cache.dir
+C:/Users/rafae/Downloads/app-motoboy-turboentregas/android/app/.cxx/RelWithDebInfo/5e2o1s5e/x86/CMakeFiles/rebuild_cache.dir
